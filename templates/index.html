@@ -36,6 +36,7 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Date Time</th>
+            <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -47,8 +48,21 @@
             <td>{{todo.description}}</td>
             <td>{{todo.date_created}}</td>
             <td>
+            {% if todo.status == "Pending" %}
+            <span class="badge text-bg-secondary">Pending</span>
+            {% elif todo.status == "Completed" %}
+            <span class="badge text-bg-success">Completed</span>
+            {% endif %}
+            </td>
+            <td>
               <a href="/update/{{todo.sno}}"><button type="button" class="btn btn-outline-dark btn-sm">Update</button></a>
               <a href="/delete/{{todo.sno}}"><button type="button" class="btn btn-outline-danger btn-sm">Delete</button></a>
+              {% if todo.status == "Pending" %}
+              <a href="/complete/{{todo.sno}}"><button type="button" class="btn btn-outline-success btn-sm">Completed</button></a>
+              {% elif todo.status == "Completed" %}
+              <a href="/uncomplete/{{todo.sno}}"><button type="button" class="btn btn-outline-secondary btn-sm">Not Completed</button></a>
+              {% endif %}
+            
             </td>
           </tr>
           {% endfor %}

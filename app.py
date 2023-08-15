@@ -5,6 +5,7 @@ from datetime import datetime
 # app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost/flask"
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost/flask"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -14,15 +15,18 @@ class Todo(db.Model):
     title = db.Column(db.String(500), nullable = False)
     description = db.Column(db.String(500), nullable = False)
     date_created = db.Column(db.DateTime, default = datetime.utcnow)
+    status = db.Column(db.String(500), nullable = False)
+
     def __repr__(self)-> str:
         return f"{self.sno} - {self.title}"
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     todo = Todo()
+    
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        todo = Todo(title=title, description=description)
+        todo = Todo(title=title, description=description, status="Pending")
         db.session.add(todo)
         db.session.commit()
     alltodo = todo.query.all()
@@ -53,6 +57,20 @@ def update(sno):
     todo = Todo.query.filter_by(sno=sno).first()
     return render_template('update.html', todo = todo)
 
+@app.route('/complete/<int:sno>', methods=['GET', 'POST'])
+def completed(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    todo.status = 'Completed'
+    db.session.add(todo)
+    db.session.commit()
+    return redirect ('/')
+@app.route('/uncomplete/<int:sno>', methods=['GET', 'POST'])
+def incomplete(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    todo.status = 'Pending'
+    db.session.add(todo)
+    db.session.commit()
+    return redirect ('/')
 
 if __name__ == "__main__":
     app.run(debug=True)
