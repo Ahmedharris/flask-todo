@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+{% block body %}
+  
+
+    <div class="container my-3">
+      <form action="/" method="post">
+        <h1>Enter a Todo</h1>
+
+        <div class="mb-3">
+          <label for="todotitle" class="form-label">Todo Title</label>
+          <input type="text" class="form-control" name="title" id="todotitle" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="tododesc" class="form-label">Todo Descritption</label>
+          <input type="text" class="form-control" name="description" id="tododesc">
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+      </form>
+    </div>
+
+    <div class="container my-3">
+      {% if alltodo|length == 0 %}
+      <div class="alert alert-dark" role="alert">
+        There is no Task Todo!
+      </div>
+      
+        
+      {% else %}
+        
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date Time</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for todo in alltodo %}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{todo.title}}</td>
+            <td>{{todo.description}}</td>
+            <td>{{todo.date_created}}</td>
+            <td>
+              <a href="/update/{{todo.sno}}"><button type="button" class="btn btn-outline-dark btn-sm">Update</button></a>
+              <a href="/delete/{{todo.sno}}"><button type="button" class="btn btn-outline-danger btn-sm">Delete</button></a>
+            </td>
+          </tr>
+          {% endfor %}
+         
+        </tbody>
+      </table>
+      {% endif %}
+          
+    </div>
+    {% endblock body %}
