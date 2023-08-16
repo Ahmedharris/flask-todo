@@ -225,6 +225,16 @@
             var desc = $('#updatedesc').val();
             console.log(title);
             console.log(desc);
+            $.ajax({
+                url: "/update/"+id,
+                type: "POST",
+                data: {
+                  title: title,
+                  desc: desc      
+                }
+                res
+                
+              })
           })
           // $.ajax({
           //       url: "/update/"+id,
