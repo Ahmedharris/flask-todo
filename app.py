@@ -76,7 +76,13 @@ def incomplete(sno):
 @app.route('/updatedata/<int:sno>', methods=['GET', 'POST'])
 def updatedata(sno):
     todo = Todo.query.filter_by(sno=sno).first()
-    return redirect ('/', todo = todo)
+    title = todo.title
+    desc = todo.description
+    data = {'title': title,
+            'desc': desc}
+    print(data)
+
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True)
