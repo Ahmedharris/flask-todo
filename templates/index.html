@@ -4,7 +4,7 @@
   
 
     <div class="container my-3">
-      <form>
+      <form id="addform">
         <h1>Enter a Todo</h1>
 
         <div class="mb-3">
@@ -144,7 +144,28 @@
     
       });
     </script>
+    <script>
+      $("#butsave").on("click", function(e){
+        e.preventDefault();
+        var title = $("#todotitle").val();
+        var description = $("#tododesc").val();
+        console.log(title);
+        console.log(description);
+        $.ajax({
+          url: "/",
+          type: "POST",
+          data: {
+            title: title,
+            description: description
+          },
+          success : function(data){
+            $("#divid").load(" #divid");
+            $("#addform").trigger("reset");
+            // console.log("Success");
+          }
+        })
+      })
+    </script>
 
 
-  </script>
     {% endblock scripts %}
