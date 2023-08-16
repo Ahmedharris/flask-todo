@@ -72,5 +72,11 @@ def incomplete(sno):
     db.session.commit()
     return redirect ('/')
 
+
+@app.route('/updatedata/<int:sno>', methods=['GET', 'POST'])
+def updatedata(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    return redirect ('/', todo = todo)
+
 if __name__ == "__main__":
     app.run(debug=True)
