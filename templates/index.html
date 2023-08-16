@@ -225,16 +225,28 @@
             var desc = $('#updatedesc').val();
             console.log(title);
             console.log(desc);
+            console.log(id);
             $.ajax({
                 url: "/update/"+id,
                 type: "POST",
                 data: {
                   title: title,
-                  desc: desc      
+                  description: desc      
+                },
+                success: function(response){
+                  console.log(response)
+                  $('#editmodal').modal('hide')
+                  if(response == "Record Updated"){
+                    location.reload();
+
+                  }
+                  // $("#divid").load(" #divid");
                 }
-                res
                 
+                               
               })
+            
+
           })
           // $.ajax({
           //       url: "/update/"+id,
