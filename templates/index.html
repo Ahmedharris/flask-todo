@@ -2,7 +2,7 @@
 {% block title %} Home {% endblock title %}
 {% block body %}
   
-
+<div id="mdiv">
     <div class="container my-3">
       <form id="addform">
         <h1>Enter a Todo</h1>
@@ -15,7 +15,7 @@
           <label for="tododesc" class="form-label">Todo Descritption</label>
           <input type="text" class="form-control" name="description" id="tododesc">
         </div>
-        <button type="submit" class="btn btn-dark" id="butsave" >Submit</button>
+        <button type="button" class="btn btn-dark" id="butsave" >Submit</button>
       </form>
     </div>
 
@@ -70,7 +70,6 @@
         </tbody>
       </table>
       {% endif %}
-          
     </div>
 
     <div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -99,6 +98,7 @@
         </div>
       </div>
     </div>
+  </div>
     {% endblock body %}
     {% block scripts %}
     <script>
@@ -117,6 +117,8 @@
                   success: function (response) {
                       // console.log(response);
                       $ele.fadeOut().remove();
+                      $("#mdiv").load(" #mdiv");
+
                       // $('#code').val(response.student.code);
                       
                   }
@@ -233,11 +235,17 @@
                   title: title,
                   description: desc      
                 },
+                cache: false,
                 success: function(response){
                   console.log(response)
                   $('#editmodal').modal('hide')
                   if(response == "Record Updated"){
-                    location.reload();
+                    // location.reload();
+                    // $("#divid").load(window.location + " #divid");
+                  // $("#divid").load(" #divid");
+                  $('#mdiv').load(' #mdiv')
+                  // $("#editmodal").load(" #editmodal");
+
 
                   }
                   // $("#divid").load(" #divid");
@@ -256,6 +264,8 @@
       });
 
   });
+
+  
 </script>
 
     {% endblock scripts %}
